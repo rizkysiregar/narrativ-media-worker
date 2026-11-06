@@ -1,0 +1,6 @@
+.env
+.idea/
+.DS_Store
+/media-worker
+/feedzmore-media-worker
+/bin/
