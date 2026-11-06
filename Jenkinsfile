@@ -97,7 +97,7 @@ pipeline {
                               --env IMAGE_TAG \\
                               "$YQ_IMAGE" \\
                               -i \\
-                              '(.images[] | select(.name == strenv(IMAGE_NAME))).newTag = strenv(IMAGE_TAG)' \\
+                              '(.images[] | select(.name == strenv(IMAGE_NAME))).newTag = strenv(IMAGE_TAG) | (.images[] | select(.name == strenv(IMAGE_NAME)) | .newTag) style="double"' \\
                               "$GITOPS_MANIFEST"
 
                             git diff --check
