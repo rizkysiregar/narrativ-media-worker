@@ -1,11 +1,10 @@
-# syntax=docker/dockerfile:1
+# No BuildKit-only syntax (cache mounts etc.): the Jenkins agent builds with the legacy builder.
 FROM golang:1.26-alpine AS build
 WORKDIR /src
 COPY go.mod go.sum ./
-RUN --mount=type=cache,target=/go/pkg/mod go mod download
+RUN go mod download
 COPY . .
-RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/media-worker .
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/media-worker .
 
 # Static ffmpeg build: a single binary instead of the distro package with its ~100 shared libraries.
 FROM mwader/static-ffmpeg:7.1 AS ffmpeg
