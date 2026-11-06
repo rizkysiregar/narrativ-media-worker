@@ -8,7 +8,8 @@ pipeline {
     }
 
     environment {
-        IMAGE_NAME = 'rizkysiregar/feedzmore-media-worker'
+        IMAGE_REGISTRY = 'ghcr.io'
+        IMAGE_NAME = 'ghcr.io/rizkysiregar/feedzmore-media-worker'
         IMAGE_PLATFORM = 'linux/amd64'
         GITOPS_REPOSITORY = 'https://github.com/rizkysiregar/homelabs-gitops.git'
         GITOPS_BRANCH = 'main'
@@ -50,15 +51,15 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub',
-                        usernameVariable: 'DOCKER_USERNAME',
-                        passwordVariable: 'DOCKER_PASSWORD'
+                        credentialsId: 'github-all-repo-pat',
+                        usernameVariable: 'REGISTRY_USERNAME',
+                        passwordVariable: 'REGISTRY_PASSWORD'
                     )
                 ]) {
                     sh '''
                         set +x
-                        printf '%s' "$DOCKER_PASSWORD" | docker login docker.io \\
-                          --username "$DOCKER_USERNAME" \\
+                        printf '%s' "$REGISTRY_PASSWORD" | docker login "$IMAGE_REGISTRY" \\
+                          --username "$REGISTRY_USERNAME" \\
                           --password-stdin
                         set -x
 
@@ -67,7 +68,7 @@ pipeline {
                           --tag "$IMAGE_NAME:$IMAGE_TAG" \\
                           .
                         docker push "$IMAGE_NAME:$IMAGE_TAG"
-                        docker logout docker.io || true
+                        docker logout "$IMAGE_REGISTRY" || true
                     '''
                 }
             }
