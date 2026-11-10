@@ -21,13 +21,13 @@ declares topology.
 Request, published to `post.exchange` with routing key `video.thumbnail.requested`:
 
 ```json
-{"postId": "uuid", "mediaUrl": "user/POST_FEED/clip.mp4", "thumbnailObjectKey": "user/POST_FEED/clip_thumb.jpg"}
+{"postId": "uuid", "mediaId": "uuid", "mediaUrl": "user/POST_FEED/clip.mp4", "thumbnailObjectKey": "user/POST_FEED/clip_thumb.jpg"}
 ```
 
 Result, published to `post.exchange` with routing key `video.thumbnail.generated`:
 
 ```json
-{"postId": "uuid", "thumbnailObjectKey": "user/POST_FEED/clip_thumb.jpg"}
+{"postId": "uuid", "mediaId": "uuid", "thumbnailObjectKey": "user/POST_FEED/clip_thumb.jpg"}
 ```
 
 Keep these in sync with `VideoThumbnailRequestedEvent` / `VideoThumbnailGeneratedEvent` in `feedzmore-service`.
