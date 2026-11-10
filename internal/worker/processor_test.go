@@ -46,6 +46,7 @@ func (f fakeExtractor) Extract(_ context.Context, _, out string) error {
 func validRequest() ThumbnailRequested {
 	return ThumbnailRequested{
 		PostID:             "post-1",
+		MediaID:            "media-1",
 		MediaURL:           "user/POST_FEED/video.mp4",
 		ThumbnailObjectKey: "user/POST_FEED/video_thumb.jpg",
 	}
@@ -59,7 +60,7 @@ func TestProcessUploadsThumbnailToRequestedKey(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if res.PostID != "post-1" || res.ThumbnailObjectKey != "user/POST_FEED/video_thumb.jpg" {
+	if res.PostID != "post-1" || res.MediaID != "media-1" || res.ThumbnailObjectKey != "user/POST_FEED/video_thumb.jpg" {
 		t.Errorf("unexpected result: %+v", res)
 	}
 	if store.uploadedKey != "user/POST_FEED/video_thumb.jpg" || store.uploadedType != "image/jpeg" {

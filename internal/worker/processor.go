@@ -42,6 +42,6 @@ func (p Processor) Process(ctx context.Context, req ThumbnailRequested) (Thumbna
 		return ThumbnailGenerated{}, fmt.Errorf("upload %s: %w", req.ThumbnailObjectKey, err)
 	}
 
-	slog.Info("thumbnail generated", "postId", req.PostID, "key", req.ThumbnailObjectKey)
-	return ThumbnailGenerated{PostID: req.PostID, ThumbnailObjectKey: req.ThumbnailObjectKey}, nil
+	slog.Info("thumbnail generated", "postId", req.PostID, "mediaId", req.MediaID, "key", req.ThumbnailObjectKey)
+	return ThumbnailGenerated{PostID: req.PostID, MediaID: req.MediaID, ThumbnailObjectKey: req.ThumbnailObjectKey}, nil
 }
