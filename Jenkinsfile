@@ -13,7 +13,7 @@ pipeline {
         IMAGE_PLATFORM = 'linux/amd64'
         GITOPS_REPOSITORY = 'https://github.com/rizkysiregar/homelabs-gitops.git'
         GITOPS_BRANCH = 'main'
-        GITOPS_MANIFEST = 'apps/narrativ/kustomization.yaml'
+        GITOPS_MANIFEST = 'apps/narrativ-dev/kustomization.yaml'
         GO_IMAGE = 'golang:1.26-alpine'
         YQ_IMAGE = 'mikefarah/yq:4.45.4'
     }
@@ -110,7 +110,7 @@ pipeline {
                                 exit 0
                             fi
 
-                            git commit -m "deploy(narrativ-media-worker): $IMAGE_TAG"
+                            git commit -m "deploy(narrativ-dev-media-worker): $IMAGE_TAG"
                             git push origin "HEAD:$GITOPS_BRANCH"
                         '''
                     }

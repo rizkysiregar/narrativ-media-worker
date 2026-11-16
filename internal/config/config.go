@@ -60,7 +60,7 @@ func Load() (Config, error) {
 		Port:     port,
 		Username: user,
 		Password: pass,
-		Vhost:    env("RABBITMQ_VIRTUAL_HOST", "/narrativ"),
+		Vhost:    env("RABBITMQ_VIRTUAL_HOST", "/narrativ-dev"),
 	}
 
 	endpoint, err := required("MINIO_ENDPOINT")
