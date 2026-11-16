@@ -1,4 +1,4 @@
-module github.com/rizkysiregar/feedzmore-media-worker
+module github.com/rizkysiregar/narrativ-media-worker
 
 go 1.26.3
 

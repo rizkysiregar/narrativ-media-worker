@@ -10,10 +10,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/config"
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/storage"
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/thumbnail"
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/worker"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/config"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/storage"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/thumbnail"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/worker"
 )
 
 func main() {

@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/config"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/config"
 )
 
 type fakeStore struct {

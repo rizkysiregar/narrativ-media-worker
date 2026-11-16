@@ -32,7 +32,7 @@ type Config struct {
 }
 
 // Load reads the configuration. Queue and exchange names must match the topology
-// declared by feedzmore-service (RabbitMQConfig); the worker never declares them.
+// declared by narrativ-service (RabbitMQConfig); the worker never declares them.
 func Load() (Config, error) {
 	c := Config{
 		RequestQueue:     env("VIDEO_THUMBNAIL_REQUEST_QUEUE", "video.thumbnail.request.queue"),
@@ -60,7 +60,7 @@ func Load() (Config, error) {
 		Port:     port,
 		Username: user,
 		Password: pass,
-		Vhost:    env("RABBITMQ_VIRTUAL_HOST", "/feedzmore"),
+		Vhost:    env("RABBITMQ_VIRTUAL_HOST", "/narrativ"),
 	}
 
 	endpoint, err := required("MINIO_ENDPOINT")

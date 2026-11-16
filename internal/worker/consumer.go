@@ -12,7 +12,7 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
-	"github.com/rizkysiregar/feedzmore-media-worker/internal/config"
+	"github.com/rizkysiregar/narrativ-media-worker/internal/config"
 )
 
 // Handler turns a request into a result.
@@ -24,7 +24,7 @@ type Handler interface {
 //
 // Delivery semantics are at-least-once: a request is acked only after the result
 // was published and confirmed by the broker. Failed requests are rejected without
-// requeue so the queue's dead-letter exchange (declared by feedzmore-service)
+// requeue so the queue's dead-letter exchange (declared by narrativ-service)
 // routes them to the DLQ.
 type Consumer struct {
 	cfg     config.Config
