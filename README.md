@@ -1,19 +1,19 @@
-# feedzmore-media-worker
+# narrativ-media-worker
 
-Generates video thumbnails for `feedzmore-service`. It has no database access: it talks only to
+Generates video thumbnails for `narrativ-service`. It has no database access: it talks only to
 RabbitMQ and MinIO.
 
 ```
-feedzmore-service ── video.thumbnail.requested ──▶ video.thumbnail.request.queue ──▶ worker
-feedzmore-service ◀── video.thumbnail.generated ── video.thumbnail.result.queue  ◀── worker
+narrativ-service ── video.thumbnail.requested ──▶ video.thumbnail.request.queue ──▶ worker
+narrativ-service ◀── video.thumbnail.generated ── video.thumbnail.result.queue  ◀── worker
 ```
 
-1. `feedzmore-service` saves the post with a null thumbnail and publishes a request.
+1. `narrativ-service` saves the post with a null thumbnail and publishes a request.
 2. The worker downloads the video, extracts one frame with ffmpeg and uploads it to the requested key.
 3. The worker publishes the result (with publisher confirm), then acks the request.
-4. `feedzmore-service` stores the key on the post.
+4. `narrativ-service` stores the key on the post.
 
-Exchange, queues and DLQs are declared by `feedzmore-service` (`RabbitMQConfig`). The worker never
+Exchange, queues and DLQs are declared by `narrativ-service` (`RabbitMQConfig`). The worker never
 declares topology.
 
 ## Messages (JSON, `content_type: application/json`)
@@ -30,7 +30,7 @@ Result, published to `post.exchange` with routing key `video.thumbnail.generated
 {"postId": "uuid", "mediaId": "uuid", "thumbnailObjectKey": "user/POST_FEED/clip_thumb.jpg"}
 ```
 
-Keep these in sync with `VideoThumbnailRequestedEvent` / `VideoThumbnailGeneratedEvent` in `feedzmore-service`.
+Keep these in sync with `VideoThumbnailRequestedEvent` / `VideoThumbnailGeneratedEvent` in `narrativ-service`.
 
 ## Failure handling
 
@@ -51,7 +51,7 @@ Probes: `GET :8080/healthz` (liveness), `GET :8080/readyz` (ready once connected
 
 ```
 go vet ./... && go test ./...
-docker build --platform linux/amd64 -t feedzmore-media-worker .
+docker build --platform linux/amd64 -t narrativ-media-worker .
 ```
 
 The image is distroless plus a static ffmpeg binary (about 57 MB).

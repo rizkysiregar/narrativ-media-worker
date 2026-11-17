@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// ThumbnailRequested mirrors VideoThumbnailRequestedEvent in feedzmore-service.
+// ThumbnailRequested mirrors VideoThumbnailRequestedEvent in narrativ-service.
 type ThumbnailRequested struct {
 	PostID             string `json:"postId"`
 	MediaID            string `json:"mediaId"` // the post_media row; echoed back so the service knows which media it is
@@ -13,7 +13,7 @@ type ThumbnailRequested struct {
 	ThumbnailObjectKey string `json:"thumbnailObjectKey"`
 }
 
-// ThumbnailGenerated mirrors VideoThumbnailGeneratedEvent in feedzmore-service.
+// ThumbnailGenerated mirrors VideoThumbnailGeneratedEvent in narrativ-service.
 type ThumbnailGenerated struct {
 	PostID             string `json:"postId"`
 	MediaID            string `json:"mediaId,omitempty"`

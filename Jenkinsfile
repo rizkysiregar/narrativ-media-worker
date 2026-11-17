@@ -9,11 +9,11 @@ pipeline {
 
     environment {
         IMAGE_REGISTRY = 'ghcr.io'
-        IMAGE_NAME = 'ghcr.io/rizkysiregar/feedzmore-media-worker'
+        IMAGE_NAME = 'ghcr.io/rizkysiregar/narrativ-media-worker'
         IMAGE_PLATFORM = 'linux/amd64'
         GITOPS_REPOSITORY = 'https://github.com/rizkysiregar/homelabs-gitops.git'
         GITOPS_BRANCH = 'main'
-        GITOPS_MANIFEST = 'apps/feedzmore/kustomization.yaml'
+        GITOPS_MANIFEST = 'apps/narrativ-dev/kustomization.yaml'
         GO_IMAGE = 'golang:1.26-alpine'
         YQ_IMAGE = 'mikefarah/yq:4.45.4'
     }
@@ -102,7 +102,7 @@ pipeline {
 
                             git diff --check
                             git config user.name 'Jenkins'
-                            git config user.email 'jenkins@feedzmore.ci'
+                            git config user.email 'jenkins@narrativ.ci'
                             git add "$GITOPS_MANIFEST"
 
                             if git diff --cached --quiet; then
@@ -110,7 +110,7 @@ pipeline {
                                 exit 0
                             fi
 
-                            git commit -m "deploy(feedzmore-media-worker): $IMAGE_TAG"
+                            git commit -m "deploy(narrativ-dev-media-worker): $IMAGE_TAG"
                             git push origin "HEAD:$GITOPS_BRANCH"
                         '''
                     }
