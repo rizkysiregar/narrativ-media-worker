@@ -121,10 +121,15 @@ pipeline {
 
     post {
         always {
-            // The image is in the registry once pushed. Remove the local copy whatever the result, and build cache
-            // older than three days, so the agent's disk does not fill up one build at a time.
+            // Keep only this build's image on the agent. The agent builds with the legacy builder, where an image's
+            // layers are the cache that keeps the next build fast, so the latest one stays and every older tag of the
+            // same image goes. Skipped when this build made no image, so a failed build never deletes the cache.
             sh '''
-                docker image rm "$IMAGE_NAME:${IMAGE_TAG:-none}" || true
+                if docker image inspect "$IMAGE_NAME:${IMAGE_TAG:-none}" > /dev/null 2>&1; then
+                    docker images "$IMAGE_NAME" --format '{{.Tag}}' \\
+                      | grep -vx "$IMAGE_TAG" \\
+                      | xargs -r -I{} docker image rm "$IMAGE_NAME:{}" || true
+                fi
                 docker builder prune --force --filter until=72h || true
             '''
         }
