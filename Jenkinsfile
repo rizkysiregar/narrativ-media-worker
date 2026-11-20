@@ -118,4 +118,20 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            // Keep only this build's image on the agent. The agent builds with the legacy builder, where an image's
+            // layers are the cache that keeps the next build fast, so the latest one stays and every older tag of the
+            // same image goes. Skipped when this build made no image, so a failed build never deletes the cache.
+            sh '''
+                if docker image inspect "$IMAGE_NAME:${IMAGE_TAG:-none}" > /dev/null 2>&1; then
+                    docker images "$IMAGE_NAME" --format '{{.Tag}}' \\
+                      | grep -vx "$IMAGE_TAG" \\
+                      | xargs -r -I{} docker image rm "$IMAGE_NAME:{}" || true
+                fi
+                docker builder prune --force --filter until=72h || true
+            '''
+        }
+    }
 }
