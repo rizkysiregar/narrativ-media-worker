@@ -118,4 +118,15 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            // The image is in the registry once pushed. Remove the local copy whatever the result, and build cache
+            // older than three days, so the agent's disk does not fill up one build at a time.
+            sh '''
+                docker image rm "$IMAGE_NAME:${IMAGE_TAG:-none}" || true
+                docker builder prune --force --filter until=72h || true
+            '''
+        }
+    }
 }
